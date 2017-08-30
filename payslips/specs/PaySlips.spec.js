@@ -1,100 +1,61 @@
-let PaySlipFactory = require('../PaySlipFactory');
-let PaySlipService = require('../PaySlipService');
-let PaySlip = require('../PaySlip');
-let StandardPaySlip = require('../StandardPaySlip');
-let CasualPaySlip = require('../CasualPaySlip');
-var expect = require('chai').expect
+let expect = require('chai').expect;
+let PayslipService = require('../PayslipService');
 
+describe('PayslipService', function() {
 
-describe('PaySlipFactory', function() {
+	let service = new PayslipService();
+	
+	/**
+	 * Given an employees details
+	 * First name, last name, annual salary, super rate and payment start date
+	 */
+	it('Should generate valid payslips', function() {
 
-	it('should be instansiatable', function() {
-		let factory = new PaySlipFactory();
-	});
-
-	it('should create payslips', function() {
-
-		let factory = new PaySlipFactory();
-		expect(factory.createPaySlip({
-			contractType: 'Full Time'
-		})).to.be.an.instanceOf(PaySlip);
-	});
-
-	it('should create casual payslips for casual employees', function() {
-
-		let factory = new PaySlipFactory();
-		expect(factory.createPaySlip({
-			contractType: 'Casual'
-		})).to.be.an.instanceOf(CasualPaySlip);
-
-	});
-
-	it('should create standard payslips for non-casual employees', function() {
-
-		let factory = new PaySlipFactory();
-		expect(factory.createPaySlip({
-			contractType: 'Full Time'
-		})).to.be.an.instanceOf(StandardPaySlip);
-
-		expect(factory.createPaySlip({
-			contractType: 'Part Time'
-		})).to.be.an.instanceOf(StandardPaySlip);
-
-	});
-
-	it('should throw if contract type is not supplied', function() {
-		let factory = new PaySlipFactory();
-		expect(factory.createPaySlip.bind(factory)).to.throw('Unable to determine employee type');
-	});
-});
-
-
-describe('PaySlipService', function() {
-
-	it('should be instansiatable', function() {
-		let service = new PaySlipService();
-	});
-
-
-	it('should generate payslips', function() {
-
-		let factory = new PaySlipFactory();
-		let service = new PaySlipService(factory);
-
-		let paySlipA = service.generateMonthlyPaySlip('David', 'Rudd', 'Full Time', 60050, 0.09, new Date(2012, 3, 01));
-		
-		expect(paySlipA).to.deep.equal(factory.createPaySlip({
+		/** #Payslip validation Test A */
+		let expectedPayslipA = {
 			firstName: 'David',
 			lastName: 'Rudd',
-			contractType: 'Full Time',
-			paymentPeriodStartDate: new Date(2012, 3, 1),
-			paymentPeriodEndDate: new Date(2012, 3, 31),
-			grossIncomeAmount: 5004,
-			incomeTaxAmount: 922,
-			netIncomeAmount: 4082,
-			superContributionAmount: 450
-		}));
+			payPeriodStart:  new Date(2012, 03, 01),
+			payPeriodEnd: new Date(2012, 03, 31),
+			grossIncome: 5004,
+			incomeTax: 922,
+			netIncome: 4082,
+			super: 450
+		};
 
-		let paySlipB = service.generateMonthlyPaySlip('Ryan', 'Chen', 'Casual', 120000, 0.1, new Date(2012, 3, 01));
-		expect(paySlipB).to.deep.equal(factory.createPaySlip({
-			firstName: 'David',
-			lastName: 'Rudd',
-			contractType: 'Casual',
-			paymentPeriodStartDate: new Date(2012, 3, 1),
-			paymentPeriodEndDate: new Date(2012, 3, 31),
-			grossIncomeAmount: 10000,
-			incomeTaxAmount: 2696,
-			netIncomeAmount: 7304,
-			superContributionAmount: 1000
-		}));
-	});
+		let actualPayslipA = service.generatePayslip(
+			'David', 
+			'Rudd', 
+			60050, 
+			0.09, 
+			new Date(2012, 03, 01)
+		);
 
-});
+		expect(actualPayslipA).to.deep.equal(expectedPayslipA);
 
-describe('PaySlip', function() {
 
-	it('should be instansiatable', function() {
-		let payslip = new PaySlip();
+		/** #Payslip validation Test B */
+		let expectedPayslipB = {
+			firstName: 'Ryan',
+			lastName: 'Chen',
+			payPeriodStart:  new Date(2012, 03, 01),
+			payPeriodEnd: new Date(2012, 03, 31),
+			grossIncome: 10000,
+			incomeTax: 2696,
+			netIncome: 7304,
+			super: 1000
+		};
+
+		let actualPayslipB = service.generatePayslip(
+			'Ryan', 
+			'Chen', 
+			120000, 
+			0.1, 
+			new Date(2012, 03, 01)
+		);
+
+		expect(actualPayslipB).to.deep.equal(expectedPayslipB);
+
 	});
 
 });
