@@ -2,32 +2,29 @@
 
 class PayslipService {
 
-	constructor(incomeTaxService) {
+	constructor(incomeTaxService, payslipFactory) {
 		this._incomeTaxService = incomeTaxService;
+		this._payslipFactory = payslipFactory;
 
 	}
 
-	generatePayslip(firstName, lastName, grossAnnualSalary, superRate, paymentStartDate) {
-		return new Promise((fulfill, reject) => {
-			let grossMonthlyIncome = grossAnnualSalary / 12;
+	async generatePayslip(payee, dateFrom) {
+		let self = this;
 
-			this._incomeTaxService.calculateMonthlyIncomeTax(grossAnnualSalary, 2012)
-			.then(monthlyIncomeTax => {
-				let monthlySuper = grossMonthlyIncome * superRate;
-				let monthlyNetIncome = grossMonthlyIncome - monthlyIncomeTax;
+		let year = dateFrom.getFullYear();
+		let startOfMonth = new Date(Date.UTC(year, dateFrom.getMonth(), 1));
+		let endOfMonth = new Date(Date.UTC(year, dateFrom.getMonth() + 1, 0));
 
-				fulfill({
-					firstName: firstName,
-					lastName: lastName,
-					payPeriodStart:  new Date(2012, 3, 1),
-					payPeriodEnd: new Date(2012, 3, 31),
-					grossIncome: Math.round(grossMonthlyIncome),
-					incomeTax: Math.round(monthlyIncomeTax),
-					netIncome: Math.round(monthlyNetIncome),
-					super: Math.round(monthlySuper)
-				});
-				
-			});
+		let monthlyIncomeTax = await this._incomeTaxService.calculateMonthlyIncomeTax(payee.annualSalary, year);
+			
+		return self._payslipFactory.create({
+			payee: payee,
+			dateFrom:  startOfMonth,
+			dateTo: endOfMonth,
+			grossIncome: Math.round(payee.monthlySalary),
+			incomeTax: Math.round(monthlyIncomeTax),
+			netIncome: Math.round(payee.monthlySalary - monthlyIncomeTax),
+			superContribution: Math.round(payee.monthlySuper)
 		});
 	}
 }

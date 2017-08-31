@@ -28,7 +28,7 @@ class TaxBracketRepository {
 			},
 			{
 				label: 'E',
-				test: n => n > 180000,
+				test: n => n >= 180000,
 				calc: n => 54547 + 0.45 * (n - 180000)
 			}
 		];

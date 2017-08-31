@@ -7,8 +7,7 @@ class Payslip {
 		dateTo,
 		grossIncome,
 		incomeTax,
-		superContribution,
-		taxBracket
+		superContribution
 	) {
 
 		//TODO Add exception checking ?
@@ -18,8 +17,7 @@ class Payslip {
 			dateTo: dateTo,
 			grossIncome: grossIncome,
 			incomeTax: incomeTax,
-			superContribution: superContribution,
-			taxBracket: taxBracket
+			superContribution: superContribution
 		};
 		
 	}
@@ -52,9 +50,6 @@ class Payslip {
 		return this._properties.superContribution;
 	}
 
-	get taxBracket() {
-		return this._properties.taxBracket;
-	}
 }
 
-module.exports Payslip;
+module.exports = Payslip;
