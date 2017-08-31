@@ -16,7 +16,7 @@ class IncomeTaxService {
 			.then(taxTables => {
 				let taxBracket = taxTables.find(n => n.test(grossAnnualSalary));
 				if(taxBracket) {
-					fulfill(taxBracket.calc(grossAnnualSalary) / 12);
+					fulfill(taxBracket.calculate(grossAnnualSalary) / 12);
 				} else {
 					reject(['Failed to locate tax bracket']);
 				}

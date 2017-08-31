@@ -7,31 +7,41 @@ class TaxBracketRepository {
 
 		this._taxBrackets = {
 			2012: [
-				{
+				this._factory.create({
 					label: 'A',
-					test: n => n < 18200,
-					calc: n => 0
-				},
-				{	
+					thresholdLower: 0,
+					thresholdUpper: 18200,
+					baseAmount: 0,
+					rate: 0
+				}),
+				this._factory.create({	
 					label: 'B',
-					test: n => n < 37000,
-					calc: n => 0.19 * n - 18200
-				},
-				{
+					thresholdLower: 18200,
+					thresholdUpper: 37000,
+					baseAmount: 0,
+					rate: 0.19
+				}),
+				this._factory.create({	
 					label: 'C',
-					test: n => n < 80000,
-					calc: n => 3572 + 0.325 * (n - 37000),
-				},
-				{	
+					thresholdLower: 37000,
+					thresholdUpper: 80000,
+					baseAmount: 3572,
+					rate: 0.325
+				}),
+				this._factory.create({		
 					label: 'D',
-					test: n => n < 180000,
-					calc: n => 17547 + 0.37 * (n - 80000)
-				},
-				{
+					thresholdLower: 80000,
+					thresholdUpper: 180000,
+					baseAmount: 17546,
+					rate: 0.37
+				}),
+				this._factory.create({	
 					label: 'E',
-					test: n => n >= 180000,
-					calc: n => 54547 + 0.45 * (n - 180000)
-				}
+					thresholdLower: 180000,
+					thresholdUpper: null,
+					baseAmount: 54547,
+					rate: 0.45
+				}),
 			]
 		};
 	}
