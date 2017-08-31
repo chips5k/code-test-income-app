@@ -1,3 +1,6 @@
+"use strict";
+
+var fs = require('fs');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -6,9 +9,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var payees = require('./routes/payees');
+var payslips = require('./routes/payslips');
 
 var app = express();
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,27 +25,36 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+//Serve up the static react client front-end app files
+app.use(express.static(path.join(__dirname, 'react-client/build')));
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+//Setup routes
+app.use('/payees', payees);
+app.use('/payslips', payslips);
+
+//Redirect all uncaught requests to the react front-end
+app.get('*', (request, response, next) => {
+	let client = path.join(__dirname + '/react-client/build/index.html');
+	if(fs.existsSync(client)) {
+		response.sendFile(client);
+	} else {
+		var error = new Error('Not Found');
+		  error.status = 404;
+		  next(error);
+	}
 });
 
+
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(error, request, response, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  response.locals.message = error.message;
+  response.locals.error = request.app.get('env') === 'development' ? error : {};
 
   // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  response.status(error.status || 500);
+  response.render('error');
 });
 
 module.exports = app;

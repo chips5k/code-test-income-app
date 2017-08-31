@@ -1,3 +1,5 @@
+"use strict";
+
 let expect = require('chai').expect;
 let PayslipService = require('../PayslipService');
 let IncomeTaxService = require('../IncomeTaxService');
