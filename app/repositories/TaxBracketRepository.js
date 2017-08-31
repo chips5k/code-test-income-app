@@ -1,9 +1,9 @@
 "use strict";
 
-class TaxTableRepository {
+class TaxBracketRepository {
 
-	constructor() {
-		this._taxTables = [
+	constructor(taxBracketFactory) {
+		this._taxBrackets = [
 			{
 				label: 'A',
 				test: n => n < 18200,
@@ -32,12 +32,12 @@ class TaxTableRepository {
 		];
 	}
 
-	getTaxTablesForFinancialYearEnding(year) {
+	getTaxBracketsForFinancialYearEnding(year) {
 		let self = this;
 		return new Promise(function (fulfill, reject){
-		    setTimeout(() => fulfill(self._taxTables), 1000);
+		    setTimeout(() => fulfill(self._taxBrackets), 1000);
 	  	});
 	}
 }
 
-module.exports = TaxTableRepository;
+module.exports = TaxBracketRepository;
