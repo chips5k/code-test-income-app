@@ -15,7 +15,7 @@ class PayslipService {
 		let startOfMonth = new Date(Date.UTC(year, dateFrom.getMonth(), 1));
 		let endOfMonth = new Date(Date.UTC(year, dateFrom.getMonth() + 1, 0));
 
-		let monthlyIncomeTax = await this._incomeTaxService.calculateMonthlyIncomeTax(payee.annualSalary, year);
+		let monthlyIncomeTax = await this._incomeTaxService.calculateMonthlyIncomeTax(payee.annualSalary, endOfMonth);
 			
 		return self._payslipFactory.create({
 			payee: payee,
