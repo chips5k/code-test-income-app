@@ -3,6 +3,8 @@
 class TaxBracketRepository {
 
 	constructor(taxBracketFactory) {
+		this._factory = taxBracketFactory;
+
 		this._taxBrackets = [
 			{
 				label: 'A',

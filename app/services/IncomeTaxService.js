@@ -3,13 +3,13 @@
 class IncomeTaxService {
 		
 	constructor(taxBracketRepository) {
-		this.taxBracketRepository = taxBracketRepository;
+		this._taxBracketRepository = taxBracketRepository;
 	}
 
 	calculateMonthlyIncomeTax(grossAnnualSalary, financialYearEnding) {
 		let self = this;
 		return new Promise(function (fulfill, reject) {
-			self.taxBracketRepository.getTaxBracketsForFinancialYearEnding(financialYearEnding)
+			self._taxBracketRepository.getTaxBracketsForFinancialYearEnding(financialYearEnding)
 			.then(taxTables => {
 				let taxBracket = taxTables.find(n => n.test(grossAnnualSalary));
 				if(taxBracket) {

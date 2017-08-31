@@ -3,7 +3,7 @@
 class PayslipService {
 
 	constructor(incomeTaxService) {
-		this.incomeTaxService = incomeTaxService;
+		this._incomeTaxService = incomeTaxService;
 
 	}
 
@@ -11,7 +11,7 @@ class PayslipService {
 		return new Promise((fulfill, reject) => {
 			let grossMonthlyIncome = grossAnnualSalary / 12;
 
-			this.incomeTaxService.calculateMonthlyIncomeTax(grossAnnualSalary, 2012)
+			this._incomeTaxService.calculateMonthlyIncomeTax(grossAnnualSalary, 2012)
 			.then(monthlyIncomeTax => {
 				let monthlySuper = grossMonthlyIncome * superRate;
 				let monthlyNetIncome = grossMonthlyIncome - monthlyIncomeTax;

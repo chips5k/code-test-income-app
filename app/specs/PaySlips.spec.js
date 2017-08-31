@@ -7,7 +7,7 @@ let TaxBracketRepository = require('../repositories/TaxBracketRepository');
 let TaxBracketFactory = require('../factories/TaxBracketFactory');
 
 describe('PayslipService', function() {
-
+	
 	let taxBracketRepository = new TaxBracketRepository(new TaxBracketFactory());
 	let incomeTaxService = new IncomeTaxService(taxBracketRepository);
 	let payslipService = new PayslipService(incomeTaxService);
