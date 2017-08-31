@@ -9,6 +9,10 @@ class TaxBracket {
 		baseAmount,
 		rate
 	) {
+
+		if(thresholdLower !== 0 && !thresholdLower) {
+			throw new Error('A lower threshold MUST be provided');
+		}
 		this._properties = {
 			label: label,
 			thresholdLower: thresholdLower,
@@ -40,7 +44,7 @@ class TaxBracket {
 	}
 
 	test(grossAnnualSalary) {
-		
+
 		if(this.thresholdUpper) {
 			return grossAnnualSalary >= this.thresholdLower && grossAnnualSalary < this.thresholdUpper;
 		}
