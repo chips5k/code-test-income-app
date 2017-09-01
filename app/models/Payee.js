@@ -20,7 +20,7 @@ class Payee {
 
 	get id() { return this._properties.id; }
 	get firstName() { return this._properties.firstName; }
-	get lastName() { return this._properties.firstName; }
+	get lastName() { return this._properties.lastName; }
 	get annualSalary() { return this._properties.annualSalary; }
 	get superRate() { return this._properties.superRate; }
 	get monthlySalary() { return Math.round(this.annualSalary / 12); }
