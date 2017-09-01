@@ -8,6 +8,8 @@ import {
 import './App.css';
 
 class App extends Component {
+
+  
   render() {
     return (
 		<Router>
@@ -23,7 +25,6 @@ class App extends Component {
 				<Route exact path="/" component={Home}/>
 				<Route path="/payees" component={Payees}/>
 				<Route path="/new-payee" component={NewPayee}/>
-                <Route path="/payslip" component={Payslip}/>
 			</div>
 		</Router>
     );
@@ -42,56 +43,90 @@ class Home extends Component {
 }
 
 class NewPayee extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            hasData: false
+        };
+
+        this.handleFormSubmit = this.handleFormSubmit.bind(this);
+    }
+
 	render() {
-    	return (
+
+        return (
     		<div>
     			<header>
                 <h2>Generate Payslip for New Payee</h2>
                 <Link to="/">Cancel</Link>
                 </header>
-                <form>
-
-                    <fieldset>
-                        <legend>Payee Details</legend>
-                        <div>
-                            <label>First Name</label>
-                            <input type="text" name="first_name" value="" placeholder="Enter first name..." />
-                        </div>
-
-                        <div>
-                            <label>First Name</label>
-                            <input type="text" name="first_name" value="" placeholder="Enter last name..." />
-                        </div>
-
-                        <div>
-                            <label>Annual Salary</label>
-                            <input type="text" name="first_name" value="" placeholder="Enter annual salary..." />
-                        </div>
-
-                        <div>
-                            <label>Super Rate</label>
-                            <input type="text" name="first_name" value="" placeholder="Enter super rate..." />
-                        </div>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>Payslip Details</legend>
-                        <div>
-                            <label>Payslip Date</label>
-                            <input type="text" name="first_name" value="" placeholder="Enter date of payment..." />
-                        </div>
-                    </fieldset>
-
-                    <button type="submit">Generate</button>
-                    <Link to="/">Cancel</Link>
-                </form>
-
+                {this.state.hasData ? <Payslip /> : <PayeeForm onSubmit={this.handleFormSubmit} />}
     			
     		</div>
     	);
     }
+
+    handleFormSubmit(data) {
+        this.setState({ hasData: true });
+    }
 }
 
+
+class PayeeForm extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+    render() {
+        return (
+            <form onSubmit={this.handleSubmit}>
+
+                <fieldset>
+                    <legend>Payee Details</legend>
+                    <div>
+                        <label>First Name</label>
+                        <input type="text" name="firstName" value="" placeholder="Enter first name..." />
+                    </div>
+
+                    <div>
+                        <label>First Name</label>
+                        <input type="text" name="lastName" value="" placeholder="Enter last name..." />
+                    </div>
+
+                    <div>
+                        <label>Annual Salary</label>
+                        <input type="text" name="annualSalary" value="" placeholder="Enter annual salary..." />
+                    </div>
+
+                    <div>
+                        <label>Super Rate</label>
+                        <input type="text" name="superRate" value="" placeholder="Enter super rate..." />
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Payslip Details</legend>
+                    <div>
+                        <label>Payment Date</label>
+                        <input type="text" name="paymentDate" value="" placeholder="Enter date of payment..." />
+                    </div>
+                </fieldset>
+
+                <button type="submit">Generate</button>
+                <Link to="/">Cancel</Link>
+            </form>
+        );
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        this.props.onSubmit({data: 'test'});
+    }
+
+}
 class Payees extends Component {
 	render() {
     	return (
