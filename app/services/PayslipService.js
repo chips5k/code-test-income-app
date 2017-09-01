@@ -20,7 +20,7 @@ class PayslipService {
 		}
 
 
-		if(typeof dateFrom !== 'object' || dateFrom.hasOwnProperty('getMonth')) {
+		if(typeof dateFrom !== 'object' || (dateFrom.hasOwnProperty('getMonth') && typeof dateFrom.getMonth === 'function')) {
 			errors.push(['Date From is invalid']);
 		}
 
@@ -31,7 +31,7 @@ class PayslipService {
 		if(parseInt(payee.annualSalary) != payee.annualSalary) {
 			errors.push(['Gross Annual Salary must be an integer value']);
 		}
-		
+
 		if(!(payee.superRate >= 0 && payee.superRate <= 0.5)) {
 			errors.push(['Payee Super Rate must be between 0% and 50% (inclusive)']);
 		}
