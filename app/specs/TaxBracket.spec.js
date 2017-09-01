@@ -93,8 +93,16 @@ describe('TaxBracket', function() {
 
 	describe('calculate', function() {
 
-		it('should work', function() {
-			throw 'Not Implemented';
+		it('should calculate annual income tax from gross annual salary', function() {
+			let taxBracket = new TaxBracket(
+				'A',
+				62000,
+				null,
+				1250.5,
+				0.12
+			);
+
+			expect(taxBracket.calculate(80000)).to.equal(3410.5);
 		});
 
 	});
@@ -102,11 +110,29 @@ describe('TaxBracket', function() {
 	describe('calculateMonthlyIncomeTax', function() {
 
 		it('should round monthly income tax to the nearest whole dollar', function() {
-			throw 'Not Implemented';
+			let taxBracket = new TaxBracket(
+				'A',
+				50,
+				null,
+				50,
+				0.12312
+			);
+
+			expect(taxBracket.calculateMonthlyIncomeTax(1521.33333)).to.equal(19);
+
 		});
 
 		it('should round up up on .5 values', function() {
-			throw 'Not Implemented';
+
+			let taxBracket = new TaxBracket(
+				'A',
+				0,
+				null,
+				0,
+				0.5
+			);
+
+			expect(taxBracket.calculateMonthlyIncomeTax(12)).to.equal(1);
 		});
 
 	})

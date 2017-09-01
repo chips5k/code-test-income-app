@@ -8,6 +8,37 @@ class PayslipService {
 
 	}
 
+	validateGeneratePayslip(payee, dateFrom) {
+		let errors = [];
+
+		if(!payee.firstName) {
+			errors.push(['Payee First Name is required']);
+		}
+
+		if(!payee.lastName) {
+			errors.push(['Payee Last Name is required']);
+		}
+
+
+		if(typeof dateFrom !== 'object' || dateFrom.hasOwnProperty('getMonth')) {
+			errors.push(['Date From is invalid']);
+		}
+
+		if(payee.annualSalary < 1) {
+			errors.push['Gross Annual Salary must be a positive amount'];
+		}
+
+		if(parseInt(payee.annualSalary) != payee.annualSalary) {
+			errors.push(['Gross Annual Salary must be an integer value']);
+		}
+		
+		if(!(payee.superRate >= 0 && payee.superRate <= 0.5)) {
+			errors.push(['Payee Super Rate must be between 0% and 50% (inclusive)']);
+		}
+
+		return errors;
+	}
+
 	async generatePayslip(payee, dateFrom) {
 		let self = this;
 

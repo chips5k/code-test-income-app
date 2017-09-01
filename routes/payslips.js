@@ -21,19 +21,42 @@ let payeeRepository = new PayeeRepository(new PayeeFactory);
 
 /** Generate Payslip Resource for Payee resource */
 router.post('/generate', function(req, res, next) {
-	payeeRepository.getPayee(req.body.payeeId).then(payee => {
-		payslipService.generatePayslip(payee, new Date(req.body.date))
-		.then(payslip => {
-			res.json(payslip);
-		}).catch(e => {
-			res.status(416);
-			res.json({ error: ['Failed to generate payslip']});
-		});
-	}).catch((e) => {
+	
+	let action = (payee, date) => {
+			
+		//Validate the request/action details
+		let errors = payslipService.validateGeneratePayslip(payee, new Date(date));
 
-		res.status(404);
-		res.json({ error: ['Failed to locate payee']});
-	});
+		//If no issues
+		if(errors.length === 0) {
+			//Try proceeding with payslip generation
+			payslipService.generatePayslip(payee, new Date(date))
+			.then(payslip => {
+				res.json(payslip);
+			}).catch(e => {
+				res.status(416);
+				res.json({ errors: [e.message ? e.message : 'Failed to generate payslip']});
+			});
+		} else {
+			res.status(416);
+			res.json({ errors: errors });
+		}
+	};
+
+	//If payee id supplied
+	if(req.body.payeeId) {
+		//Retrieve the payee 
+		payeeRepository.getPayee(req.body.payeeId).then(payee => {
+			//and proceed with the action
+			action(payee, req.body.date);
+		}).catch(e => {
+			res.status(404);
+			res.json({ errors: [e.message ? e.message : 'Failed to locate payee']});
+		});
+	} else {
+		//otherwise, try creating a payee and performing the action
+		action(payeeFactory.create(req.body), req.body.date);
+	}
 });
 
 

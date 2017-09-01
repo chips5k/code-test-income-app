@@ -41,8 +41,7 @@ describe('Payee', function() {
 	});
 
 	describe('monthlySuper', function() {
-
- 		it('returns monthly super rounded to the nears whole dollar',  function() {
+		it('returns monthly super rounded to the nears whole dollar',  function() {
 			let payeeA = new Payee(1, 't', 't', 18000.333, 0.05);
 			expect(payeeA.monthlySuper).to.equal(75);
 
@@ -54,7 +53,5 @@ describe('Payee', function() {
 			let payee = new Payee(1, 't', 't', 330000.333, 0.123);
 			expect(payee.monthlySuper).to.equal(3383);
 		});
-
 	});
-
 });

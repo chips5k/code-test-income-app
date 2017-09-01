@@ -43,7 +43,6 @@ class TaxBracket {
 	}
 
 	test(grossAnnualSalary) {
-
 		if(this.thresholdUpper) {
 			return grossAnnualSalary >= this.thresholdLower && grossAnnualSalary < this.thresholdUpper;
 		}
@@ -52,13 +51,14 @@ class TaxBracket {
 	}
 
 	calculate(grossAnnualSalary) {
-		return this.baseAmount + (grossAnnualSalary - this.thresholdLower) * this.rate
+		let amount = this.baseAmount + (grossAnnualSalary - this.thresholdLower) * this.rate;
+		return amount > 0 ? amount : 0;
 	}
 
 	calculateMonthlyIncomeTax(grossAnnualSalary) {
-		return Math.round(this.calculate(grossAnnualSalary) / 12);
+		let amount = this.calculate(grossAnnualSalary);
+		return amount > 0 ? Math.round(amount / 12) : 0;
 	}
-
 }
 
 module.exports = TaxBracket;
