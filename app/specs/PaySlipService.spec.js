@@ -24,9 +24,9 @@ describe('PayslipService', function() {
 		 */
 		it('Should generate valid payslips',  async function() {
 
-			
 			let payees = {
 				a: payeeFactory.create({
+					id: 1,
 					firstName: 'David',
 					lastName: 'Rudd',
 					annualSalary: 60050,
@@ -34,6 +34,7 @@ describe('PayslipService', function() {
 				}),
 
 				b: payeeFactory.create({
+					id: 2,
 					firstName: 'Ryan',
 					lastName: 'Chen',
 					annualSalary: 120000,
@@ -41,6 +42,7 @@ describe('PayslipService', function() {
 				}),
 
 				c: payeeFactory.create({
+					id: 3,
 					firstName: 'Vincent',
 					lastName: 'Pittard',
 					annualSalary: 180000,

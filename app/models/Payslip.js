@@ -27,15 +27,15 @@ class Payslip {
 	}
 
 	get payee() {
-		return Object.assign({}, this._properties.payee);
+		return this._properties.payee;
 	}
 
 	get dateFrom() {
-		return this._properties.dateFrom.clone();
+		return this._properties.dateFrom;
 	}
 
 	get dateTo() {
-		return this._properties.dateFrom.clone();
+		return this._properties.dateFrom;
 	}
 
 	get grossIncome() {
@@ -48,6 +48,18 @@ class Payslip {
 
 	get superContribution() {
 		return this._properties.superContribution;
+	}
+
+	toJSON() {
+		return {
+			payee: this.payee,
+			dateFrom: this.dateFrom,
+			dateTo: this.dateTo,
+			netIncome: this.netIncome,
+			grossIncome: this.grossIncome,
+			incomeTax: this.incomeTax,
+			superContribution: this.superContribution
+		};
 	}
 
 }

@@ -16,15 +16,16 @@ class PayslipService {
 		let endOfMonth = new Date(Date.UTC(year, dateFrom.getMonth() + 1, 0));
 
 		let monthlyIncomeTax = await this._incomeTaxService.calculateMonthlyIncomeTax(payee.annualSalary, endOfMonth);
-			
+		monthlyIncomeTax = Math.round(monthlyIncomeTax);
+		
 		return self._payslipFactory.create({
 			payee: payee,
 			dateFrom:  startOfMonth,
 			dateTo: endOfMonth,
-			grossIncome: Math.round(payee.monthlySalary),
+			grossIncome: payee.monthlySalary,
 			incomeTax: Math.round(monthlyIncomeTax),
-			netIncome: Math.round(payee.monthlySalary - monthlyIncomeTax),
-			superContribution: Math.round(payee.monthlySuper)
+			netIncome: payee.monthlySalary - monthlyIncomeTax,
+			superContribution: payee.monthlySuper
 		});
 	}
 }
