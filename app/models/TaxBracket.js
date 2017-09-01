@@ -30,7 +30,6 @@ class TaxBracket {
 		return this._properties.thresholdUpper;
 	}
 
-
 	get label() {
 		return this._properties.label;
 	}
@@ -54,6 +53,10 @@ class TaxBracket {
 
 	calculate(grossAnnualSalary) {
 		return this.baseAmount + (grossAnnualSalary - this.thresholdLower) * this.rate
+	}
+
+	calculateMonthlyIncomeTax(grossAnnualSalary) {
+		return Math.round(this.calculate(grossAnnualSalary) / 12);
 	}
 
 }

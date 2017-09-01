@@ -93,7 +93,21 @@ describe('TaxBracket', function() {
 
 	describe('calculate', function() {
 
-		
+		it('should work', function() {
+			throw 'Not Implemented';
+		});
 
 	});
+
+	describe('calculateMonthlyIncomeTax', function() {
+
+		it('should round monthly income tax to the nearest whole dollar', function() {
+			throw 'Not Implemented';
+		});
+
+		it('should round up up on .5 values', function() {
+			throw 'Not Implemented';
+		});
+
+	})
 });

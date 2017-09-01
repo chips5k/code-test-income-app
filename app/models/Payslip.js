@@ -9,8 +9,6 @@ class Payslip {
 		incomeTax,
 		superContribution
 	) {
-
-		//TODO Add exception checking ?
 		this._properties = {
 			payee: payee,
 			dateFrom: dateFrom,
@@ -19,7 +17,6 @@ class Payslip {
 			incomeTax: incomeTax,
 			superContribution: superContribution
 		};
-		
 	}
 
 	get netIncome() {
@@ -46,6 +43,10 @@ class Payslip {
 		return this._properties.incomeTax;
 	}
 
+	get netIncome() {
+		return Math.round(this.grossIncome - this.incomeTax);
+	}
+
 	get superContribution() {
 		return this._properties.superContribution;
 	}
@@ -58,6 +59,7 @@ class Payslip {
 			netIncome: this.netIncome,
 			grossIncome: this.grossIncome,
 			incomeTax: this.incomeTax,
+			netIncome: this.netIncome,
 			superContribution: this.superContribution
 		};
 	}
