@@ -31,8 +31,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'react-client/build')));
 
 //Setup routes
-app.use('/payees', payees);
-app.use('/payslips', payslips);
+app.use('/api/payees', payees);
+app.use('/api/payslips', payslips);
 
 //Redirect all uncaught requests to the react front-end
 app.get('*', (request, response, next) => {

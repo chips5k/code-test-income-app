@@ -54,21 +54,21 @@ class NewPayee extends Component {
     }
 
 	render() {
-
         return (
     		<div>
     			<header>
                 <h2>Generate Payslip for New Payee</h2>
                 <Link to="/">Cancel</Link>
                 </header>
-                {this.state.hasData ? <Payslip /> : <PayeeForm onSubmit={this.handleFormSubmit} />}
+                {this.state.hasData ? <Payslip payslip={this.state.payslip} /> : <PayeeForm onSubmit={this.handleFormSubmit} />}
     			
     		</div>
     	);
     }
 
     handleFormSubmit(data) {
-        this.setState({ hasData: true });
+        let payslip = data;
+        this.setState({ hasData: true, payslip: payslip });
     }
 }
 
@@ -88,22 +88,22 @@ class PayeeForm extends Component {
                     <legend>Payee Details</legend>
                     <div>
                         <label>First Name</label>
-                        <input type="text" name="firstName" value="" placeholder="Enter first name..." />
+                        <input type="text" defaultValue="" ref={(input) => this.firstName = input} name="firstName" placeholder="Enter first name..." />
                     </div>
 
                     <div>
                         <label>First Name</label>
-                        <input type="text" name="lastName" value="" placeholder="Enter last name..." />
+                        <input type="text" defaultValue="" ref={(input) => this.lastName = input} name="lastName" placeholder="Enter last name..." />
                     </div>
 
                     <div>
                         <label>Annual Salary</label>
-                        <input type="text" name="annualSalary" value="" placeholder="Enter annual salary..." />
+                        <input type="text" defaultValue="" ref={(input) => this.annualSalary = input} name="annualSalary"  placeholder="Enter annual salary..." />
                     </div>
 
                     <div>
                         <label>Super Rate</label>
-                        <input type="text" name="superRate" value="" placeholder="Enter super rate..." />
+                        <input type="text" defaultValue="" ref={(input) => this.superRate = input} name="superRate" placeholder="Enter super rate..." />
                     </div>
                 </fieldset>
 
@@ -111,7 +111,7 @@ class PayeeForm extends Component {
                     <legend>Payslip Details</legend>
                     <div>
                         <label>Payment Date</label>
-                        <input type="text" name="paymentDate" value="" placeholder="Enter date of payment..." />
+                        <input type="text" defaultValue="" ref={(input) => this.paymentDate = input} name="paymentDate" placeholder="Enter date of payment..." />
                     </div>
                 </fieldset>
 
@@ -123,11 +123,43 @@ class PayeeForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        this.props.onSubmit({data: 'test'});
+        this.props.onSubmit({
+            firstName: this.firstName.value,
+            lastName: this.lastName.value,
+            annualSalary: this.annualSalary.value,
+            superRate: this.superRate.value,
+            paymentDate: this.paymentDate.value
+        });
     }
 
 }
 class Payees extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: false,
+            payees: []
+        };
+    }
+
+    componentDidMount() {
+        let self = this;
+
+        self.setState({loading: true});
+
+        fetch('/api/payees').then(function(response) {
+            return response.json()
+        }).then(function(payees) {
+            self.setState({loading: false, payees: payees });
+        }).catch(function(e) {
+
+            console.log('Error', e);
+            self.setState({loading: false});
+        });
+
+    }
+
 	render() {
     	return (
     		<div>
@@ -137,30 +169,9 @@ class Payees extends Component {
                 </header>
 
                 <div>
-
+                    {this.state.loading ? <Spinner/> : null}
                     <ul>
-                        <li>
-                            <a href="">
-                                <b>Payee Name: </b>Callem Pittard<br/>
-                                <b>Annual Salary:</b> $120000<br/>
-                                <b>Super Rate</b> 9%
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <b>Payee Name: </b>Callem Pittard<br/>
-                                <b>Annual Salary:</b> $120000<br/>
-                                <b>Super Rate</b> 9%
-                            </a>
-                        </li>
-                        <li>
-                            <a href="">
-                                <b>Payee Name: </b>Callem Pittard<br/>
-                                <b>Annual Salary:</b> $120000<br/>
-                                <b>Super Rate</b> 9%
-                            </a>
-                        </li>
-
+                        {this.state.payees.map(n => { return <PayeeListItem key={n.id} payee={n} /> }) }
                     </ul>
 
                 </div>
@@ -169,25 +180,46 @@ class Payees extends Component {
     }
 }
 
-class Payslip extends Component {
+function PayeeListItem(props) {
+    return(
+        <li>
+            <b>Name: </b>{props.payee.firstName} {props.payee.lastName}<br/>
+            <b>Annual Salary:</b> ${props.payee.annualSalary}<br/>
+            <b>Super Rate</b> {props.payee.superRate * 100}%
+        </li>
+    );
+}
 
-    render() {
-        return (
+function Payslip(props) {
+
+    return (
+        <div>
+            <header>
+                <h2>Payslip Detail</h2>
+                <Link to="/">Return home</Link>
+            </header>
+
+
             <div>
-                <header>
-                    <h2>Payslip Detail</h2>
-                    <Link to="/">Return home</Link>
-                </header>
-
-                <div>
-
-                    Payslip details here
-                </div>
+                <b>Payee:</b> {props.payslip.firstName} {props.payslip.lastName}<br/>
+                <b>Annual Salary:</b> {props.payslip.annualSalary}<br/>
+                <b>Super Rate:</b> {props.payslip.superRate}<br/>
+                <b>Payment Date:</b> {props.payslip.paymentDate}<br/>  
             </div>
-        );  
+        </div>
+    );  
+}
 
-    }
-
+function Spinner() {
+    return (
+        <div className="spinner">
+            <div className="rect1"></div>
+            <div className="rect2"></div>
+            <div className="rect3"></div>
+            <div className="rect4"></div>
+            <div className="rect5"></div>
+        </div>
+    );
 }
 
 export default App;
