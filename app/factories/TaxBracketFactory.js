@@ -1,5 +1,4 @@
 "use strict";
-
 let TaxBracket = require('../models/TaxBracket');
 
 class TaxBracketFactory {

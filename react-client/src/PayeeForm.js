@@ -71,7 +71,6 @@ export default class PayeeForm extends Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        console.log(this);
         this.props.onSubmit({
             firstName: this.firstName.value,
             lastName: this.lastName.value,

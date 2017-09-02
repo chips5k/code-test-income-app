@@ -70,32 +70,31 @@ class Payees extends Component {
     }
 
 	render() {
-
         let content = <div className="loader"><CircularProgress size={50} /></div>;
         if(!this.state.loading) {
             content = (
                 <Table>
                     <TableHead>
-                      <TableRow>
-                        <TableCell>First Name</TableCell>
-                        <TableCell>LastName</TableCell>
-                        <TableCell numeric>Annual Salary</TableCell>
-                        <TableCell numeric>Super Rate</TableCell>
-                      </TableRow>
+                        <TableRow>
+                            <TableCell>First Name</TableCell>
+                            <TableCell>LastName</TableCell>
+                            <TableCell numeric>Annual Salary</TableCell>
+                            <TableCell numeric>Super Rate</TableCell>
+                        </TableRow>
                     </TableHead>
                     <TableBody>
                         {this.state.payees.map((n, i) => {
                             return (
-                              <TableRow hover key={i} onClick={this.selectPayee.bind(this, n)}>
-                                <TableCell>{n.firstName}</TableCell>
-                                <TableCell>{n.lastName}</TableCell>
-                                <TableCell numeric>{n.annualSalary}</TableCell>
-                                <TableCell numeric>{n.superRate}</TableCell>
-                              </TableRow>
+                                <TableRow hover key={i} onClick={this.selectPayee.bind(this, n)}>
+                                    <TableCell>{n.firstName}</TableCell>
+                                    <TableCell>{n.lastName}</TableCell>
+                                    <TableCell numeric>{n.annualSalary}</TableCell>
+                                    <TableCell numeric>{n.superRate}</TableCell>
+                                </TableRow>
                             );
                         })}
                     </TableBody>
-                  </Table>
+                </Table>
             );
         }
                   
@@ -103,42 +102,38 @@ class Payees extends Component {
             <div>
         		<typography type="headline">Select a payee to proceed...</typography>
                 <div className="spacer"></div>
-                <Paper>
-                {content}
-                </Paper>
+                <Paper>{content}</Paper>
 
                 <Button raised component={Link} to="/" style={{marginTop: '1.5rem'}}>Cancel</Button>
                 <Dialog open={this.state.paymentDateDialogOpen && this.state.selectedPayee !== null}>
                     <DialogTitle>Confirm Payslip Generation</DialogTitle>
-                    <DialogContent>
-                        
-                        <div>
-                        <typography type="title">
-                            <b>Payee: </b> 
-                            {this.state.selectedPayee ? this.state.selectedPayee.firstName + ' ' + this.state.selectedPayee.lastName : 'Not Selected' }
-                        </typography>
-                        </div>
-                        <TextField
-                          id="date"
-                          label="Payment Date"
-                          type="date"
-                          margin="normal"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                          onChange={this.handleSelectedPaymentDateChange}
-                        />    
-
-                    </DialogContent>
-                    <DialogActions>
-                      <Button color="primary" onClick={this.submitPaymentDateDialog}>
-                        Generate Payslip
-                      </Button>
-                      <Button onClick={this.closePaymentDateDialog}>
-                        Cancel
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
+                        <DialogContent>
+                            <div>
+                                <typography type="title">
+                                    <b>Payee: </b> 
+                                    {this.state.selectedPayee ? this.state.selectedPayee.firstName + ' ' + this.state.selectedPayee.lastName : 'Not Selected' }
+                                </typography>
+                            </div>
+                            <TextField
+                                id="date"
+                                label="Payment Date"
+                                type="date"
+                                margin="normal"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                onChange={this.handleSelectedPaymentDateChange}
+                            />    
+                        </DialogContent>
+                        <DialogActions>
+                            <Button color="primary" onClick={this.submitPaymentDateDialog}>
+                                Generate Payslip
+                            </Button>
+                            <Button onClick={this.closePaymentDateDialog}>
+                                Cancel
+                            </Button>
+                        </DialogActions>
+                </Dialog>
             </div> 
     	);
     }

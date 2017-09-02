@@ -15,9 +15,16 @@ export default class NewPayee extends Component {
     }
 
     render() {
+
+        //Using a simple switch to determine when the form has been submitted.
+        //We also register callbacks for handling submission with errors, and repopulation
+        //of the form - "handleGeneratePayslipBackClick"...
+
         return (
             <div>
-                {this.state.hasData ? <GeneratePayslip data={this.state.data} onClickBack={this.handleGeneratePayslipBackClick}/> : <PayeeForm data={this.state.data} onSubmit={this.handleFormSubmit} />}
+                {this.state.hasData ? 
+                    <GeneratePayslip data={this.state.data} onClickBack={this.handleGeneratePayslipBackClick}/> : 
+                    <PayeeForm data={this.state.data} onSubmit={this.handleFormSubmit} />}
             </div>
         );
     }

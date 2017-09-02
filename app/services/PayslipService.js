@@ -9,6 +9,12 @@ class PayslipService {
 
 	}
 
+	/**
+	 * Super basic validation routine
+	 * Setup as a dedicated function so it can be run separately
+	 * and able to return errors cleanly, prior to running the actual
+	 * function "generatePayslip"
+	 */
 	validateGeneratePayslip(payee, paymentDate) {
 		let errors = [];
 
@@ -42,12 +48,17 @@ class PayslipService {
 	async generatePayslip(payee, paymentDate) {
 		let self = this;
 
+		//Determine beginning and end of month for "paymentDate"
+		//This is our "pay period"
 		let year = paymentDate.getFullYear();
 		let startOfMonth = new Date(Date.UTC(year, paymentDate.getMonth(), 1));
 		let endOfMonth = new Date(Date.UTC(year, paymentDate.getMonth() + 1, 0));
 		
+		//retrieve the income tax 
 		let monthlyIncomeTax = await this._incomeTaxService.calculateMonthlyIncomeTax(payee.annualSalary, endOfMonth);
-		
+			
+		//Respond with a payslip
+		//Note this ultimately returns a promise!
 		return self._payslipFactory.create({
 			payee: payee,
 			dateFrom:  startOfMonth,

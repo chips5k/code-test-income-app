@@ -9,8 +9,6 @@ let PayeeRepository = require('../app/repositories/PayeeRepository');
 let repository = new PayeeRepository(new PayeeFactory);
 
 
-
-
 /* GET Payee resource listing. */
 router.get('/', function(req, res, next) {
 	repository.getPayees().then(payees => {

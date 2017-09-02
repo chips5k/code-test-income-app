@@ -5,6 +5,7 @@ class TaxBracketRepository {
 	constructor(taxBracketFactory) {
 		this._factory = taxBracketFactory;
 
+		//Faked static data
 		this._taxBrackets = {
 			2012: [
 				this._factory.create({
@@ -48,8 +49,10 @@ class TaxBracketRepository {
 
 	getTaxBracketsForFinancialYear(year) {
 		let self = this;
+		//Faking a typical async style requst to a db
 		return new Promise(function (fulfill, reject){
 			setTimeout(() => {
+				//Try locating rates for the specified year
 		    	if(self._taxBrackets.hasOwnProperty(year)) {
 		    		fulfill(self._taxBrackets[year])
 		    	}  else {

@@ -5,6 +5,7 @@ class PayeeRepository {
 	constructor(payeeFactory) {
 		this._factory = payeeFactory;
 
+		//Hardcoded static data
 		this._payees = [
 			payeeFactory.create({
 				id: 1,
@@ -34,6 +35,7 @@ class PayeeRepository {
 
 	getPayees() {
 		let self = this;
+		//Faking a typical node request to a db etc..
 		return new Promise(function (fulfill, reject){
 			setTimeout(() => {
 	    		fulfill(self._payees)
@@ -43,6 +45,7 @@ class PayeeRepository {
 
 	getPayee(id) {
 		let self = this;
+		//Faking a typical node request to a db etc..
 		return new Promise(function (fulfill, reject){
 			setTimeout(() => {
 				let payee = self._payees.find(n => n.id == id);
