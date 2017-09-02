@@ -5,7 +5,7 @@
   "scripts": {
     "start": "./node_modules/.bin/cross-env node ./bin/www",
     "dev": "./node_modules/.bin/cross-env PORT=3001 nodemon ./bin/www",
-    "test": "./node_modules/.bin/mocha \"./app/**/*.spec.js\" -w",
+    "test": "./node_modules/.bin/mocha \"./app/**/*.spec.js\"",
     "build-client": "cd react-client && npm install && npm run build",
     "postinstall": "npm run build-client"
   },
