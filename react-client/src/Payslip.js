@@ -15,14 +15,15 @@ export default class Payslip extends Component {
                 <CardContent>
                     <p style={{marginTop: 0}}>
                         <b>Payee:</b> {this.props.payslip.payee.firstName} {this.props.payslip.payee.lastName} <br/>
-                        <b>Annual Salary:</b> {this.props.payslip.payee.annualSalary} <br/>
+                        <b>Annual Salary:</b> {this.formatCurrency(this.props.payslip.payee.annualSalary)} <br/>
                         <b>Super Rate:</b> {this.props.payslip.payee.superRate * 100}% <br/>
                     </p>
                     <Divider/>
                     <p>
                         <b>Payment Period:</b> {this.formatDate(this.props.payslip.dateFrom)} - {this.formatDate(this.props.payslip.dateTo)}<br/>  
                         <b>Gross Income:</b> {this.formatCurrency(this.props.payslip.grossIncome)}<br/>  
-                        <b>Income Tax:</b> {this.formatCurrency(this.props.payslip.incomeTax)}<br/>  
+                        <b>Income Tax:</b> {this.formatCurrency(this.props.payslip.incomeTax)}<br/>
+                        <b>Net Income:</b> {this.formatCurrency(this.props.payslip.netIncome)}<br/>  
                         <b>Super Contribution:</b> {this.formatCurrency(this.props.payslip.superContribution)}<br/>  
                     </p>
                 </CardContent>
