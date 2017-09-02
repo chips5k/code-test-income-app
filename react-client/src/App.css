@@ -72,3 +72,17 @@
 .content {
   margin:20px;
 }
+
+.spacer {
+  margin-bottom: 1rem;
+}
+
+table tr td {
+  cursor: pointer;
+}
+
+.loader {
+  padding:2rem;
+  display:flex;
+  justify-content: center;
+}

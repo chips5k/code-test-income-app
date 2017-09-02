@@ -22,6 +22,7 @@ let payeeRepository = new PayeeRepository(new PayeeFactory);
 /** Generate Payslip Resource for Payee resource */
 router.post('/generate', function(req, res, next) {
 	
+	console.log(req.body.payeeId);
 	let action = (payee, date) => {
 			
 		//Validate the request/action details
