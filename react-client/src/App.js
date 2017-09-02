@@ -4,27 +4,43 @@ import {
   Route,
   Link
 } from 'react-router-dom'
-
+import AppBar from 'material-ui/AppBar';
+import Toolbar from 'material-ui/Toolbar';
+import Typography from 'material-ui/Typography';
+import Button from 'material-ui/Button';
+import Card from 'material-ui/Card';
+import IconButton from 'material-ui/IconButton';
+import HomeIcon  from 'material-ui-icons/Home';
 import './App.css';
+
+
 
 class App extends Component {
 
-  
   render() {
     return (
 		<Router>
-			<div>
-			<ul>
-				<li><Link to="/">Home</Link></li>
-				<li><Link to="/payees">Payees</Link></li>
-				<li><Link to="/new-payee">New Payee</Link></li>
-			</ul>
-
-			<hr/>
-
-				<Route exact path="/" component={Home}/>
-				<Route path="/payees" component={Payees}/>
-				<Route path="/new-payee" component={NewPayee}/>
+            <div>
+               <div className="root">
+                  <AppBar position="static">
+                    <Toolbar disableGutters>
+                      <IconButton component={Link} to="/" className="homeButton" color="contrast" aria-label="Menu">
+                        <HomeIcon  />
+                      </IconButton>
+                      <Typography component={Link} to="/" type="title" color="inherit" className="flex title">
+                        Payroll Sample Application
+                      </Typography>
+                      <Button component={Link} color="contrast" to="/payees">Payees</Button>
+                      <Button component={Link} color="contrast" to="/new-payee">New Payee</Button>
+                    </Toolbar>
+                  </AppBar>
+                </div>
+    			 
+                <div className="content">
+    				<Route exact path="/" component={Home}/>
+    				<Route path="/payees" component={Payees}/>
+    				<Route path="/new-payee" component={NewPayee}/>
+                </div>
 			</div>
 		</Router>
     );
@@ -34,10 +50,13 @@ class App extends Component {
 class Home extends Component {
 	render() {
     	return (
-    		<div>
+            <Card>
+             
+
+    		
     			<Link to="new-payee">Create Payslip for new Payee</Link><br/>
     			<Link to="payees">Create Payslip for existing Payee</Link>
-    		</div>
+    		</Card>
     	);
     }
 }

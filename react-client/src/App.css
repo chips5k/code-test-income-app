@@ -50,3 +50,25 @@
     -webkit-transform: scaleY(1.0);
   }
 }
+
+.root {
+  marginTop: 30;
+  width: '100%';
+}
+
+.flex {
+  flex: 1;
+}
+
+.homeButton {
+  marginLeft: 12;
+  marginRight: 20;
+}
+
+.title {
+  text-decoration:none
+}
+
+.content {
+  margin:20px;
+}

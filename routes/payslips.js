@@ -34,11 +34,11 @@ router.post('/generate', function(req, res, next) {
 			.then(payslip => {
 				res.json(payslip);
 			}).catch(e => {
-				res.status(416);
+				res.status(418);
 				res.json({ errors: [e.message ? e.message : 'Failed to generate payslip']});
 			});
 		} else {
-			res.status(416);
+			res.status(418);
 			res.json({ errors: errors });
 		}
 	};
