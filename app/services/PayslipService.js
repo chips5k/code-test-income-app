@@ -1,5 +1,6 @@
 "use strict";
 
+
 class PayslipService {
 
 	constructor(incomeTaxService, payslipFactory) {
@@ -8,7 +9,7 @@ class PayslipService {
 
 	}
 
-	validateGeneratePayslip(payee, dateFrom) {
+	validateGeneratePayslip(payee, paymentDate) {
 		let errors = [];
 
 		if(!payee.firstName) {
@@ -19,13 +20,12 @@ class PayslipService {
 			errors.push(['Payee Last Name is required']);
 		}
 
-
-		if(typeof dateFrom !== 'object' || (dateFrom.hasOwnProperty('getMonth') && typeof dateFrom.getMonth === 'function')) {
-			errors.push(['Date From is invalid']);
+		if(isNaN( paymentDate.getTime())) {
+			errors.push(['Payment Date is invalid']);
 		}
 
 		if(payee.annualSalary < 1) {
-			errors.push['Gross Annual Salary must be a positive amount'];
+			errors.push(['Gross Annual Salary must be a positive amount']);
 		}
 
 		if(parseInt(payee.annualSalary) != payee.annualSalary) {
@@ -39,13 +39,13 @@ class PayslipService {
 		return errors;
 	}
 
-	async generatePayslip(payee, dateFrom) {
+	async generatePayslip(payee, paymentDate) {
 		let self = this;
 
-		let year = dateFrom.getFullYear();
-		let startOfMonth = new Date(Date.UTC(year, dateFrom.getMonth(), 1));
-		let endOfMonth = new Date(Date.UTC(year, dateFrom.getMonth() + 1, 0));
-
+		let year = paymentDate.getFullYear();
+		let startOfMonth = new Date(Date.UTC(year, paymentDate.getMonth(), 1));
+		let endOfMonth = new Date(Date.UTC(year, paymentDate.getMonth() + 1, 0));
+		
 		let monthlyIncomeTax = await this._incomeTaxService.calculateMonthlyIncomeTax(payee.annualSalary, endOfMonth);
 		
 		return self._payslipFactory.create({

@@ -32,7 +32,7 @@ class Payslip {
 	}
 
 	get dateTo() {
-		return this._properties.dateFrom;
+		return this._properties.dateTo;
 	}
 
 	get grossIncome() {

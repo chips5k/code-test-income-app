@@ -20,6 +20,8 @@ class IncomeTaxService {
 				} else {
 					reject(['Failed to locate tax bracket']);
 				}
+			}).catch(function(e) {
+				reject(e);
 			});
 		});
 	}

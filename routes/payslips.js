@@ -22,7 +22,6 @@ let payeeRepository = new PayeeRepository(new PayeeFactory);
 /** Generate Payslip Resource for Payee resource */
 router.post('/generate', function(req, res, next) {
 	
-	console.log(req.body.payeeId);
 	let action = (payee, date) => {
 			
 		//Validate the request/action details
@@ -36,7 +35,7 @@ router.post('/generate', function(req, res, next) {
 				res.json(payslip);
 			}).catch(e => {
 				res.status(418);
-				res.json({ errors: [e.message ? e.message : 'Failed to generate payslip']});
+				res.json({ errors: e});
 			});
 		} else {
 			res.status(418);
@@ -49,14 +48,14 @@ router.post('/generate', function(req, res, next) {
 		//Retrieve the payee 
 		payeeRepository.getPayee(req.body.payeeId).then(payee => {
 			//and proceed with the action
-			action(payee, req.body.date);
+			action(payee, req.body.paymentDate);
 		}).catch(e => {
 			res.status(404);
-			res.json({ errors: [e.message ? e.message : 'Failed to locate payee']});
+			res.json({ errors: [e]});
 		});
 	} else {
 		//otherwise, try creating a payee and performing the action
-		action(payeeFactory.create(req.body), req.body.date);
+		action(payeeFactory.create(req.body), req.body.paymentDate);
 	}
 });
 

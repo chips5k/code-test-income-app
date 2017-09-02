@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {withRouter} from "react-router-dom";
+import { Link } from 'react-router-dom';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
@@ -34,7 +35,7 @@ class Payees extends Component {
         }).then(function(payees) {
             self.setState({loading: false, payees: payees });
         }).catch(function(e) {
-            console.log('Error', e);
+            
             self.setState({loading: false});
         });
 
@@ -58,7 +59,7 @@ class Payees extends Component {
     submitPaymentDateDialog(e) {
         let id = this.state.selectedPayee.id;
         let date = this.state.selectedPaymentDate;
-        console.log(this.state);
+        
         this.props.history.push(`/generate-payslip/${id}/${date}`);
     }
 
@@ -106,6 +107,7 @@ class Payees extends Component {
                 {content}
                 </Paper>
 
+                <Button raised component={Link} to="/" style={{marginTop: '1.5rem'}}>Cancel</Button>
                 <Dialog open={this.state.paymentDateDialogOpen && this.state.selectedPayee !== null}>
                     <DialogTitle>Confirm Payslip Generation</DialogTitle>
                     <DialogContent>
